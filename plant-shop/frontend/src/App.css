@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  font-family: "Prompt", sans-serif;
+  background: #f4fff4;
+}
+
+.navbar {
+  background: #2e7d32;
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-buttons button {
+  margin-left: 10px;
+  padding: 6px 12px;
+  background: white;
+  color: #2e7d32;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.nav-buttons button:hover {
+  background: #c8e6c9;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.auth-form {
+  background: #e8f5e9;
+  padding: 20px;
+  border-radius: 12px;
+  width: 280px;
+  text-align: center;
+}
+
+.auth-form input {
+  display: block;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.auth-form button {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.link {
+  color: #1b5e20;
+  cursor: pointer;
+  font-weight: bold;
+}
