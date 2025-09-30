@@ -3,6 +3,7 @@ import ShopPage from "./ShopPage";
 import OwnerDashboard from "./OwnerDashboard";
 import CartPage from "./CartPage";
 import CheckoutPage from "./CheckoutPage";
+import OrdersPage from "./OrdersPage";
 import "./App.css";
 import { plants as initialPlants } from "./data";
 
@@ -16,10 +17,13 @@ export default function App() {
   const [isOwner, setIsOwner] = useState(false);
 
   // Shop & Cart
-  const [plants, setPlants] = useState(initialPlants); // ใช้ initialPlants จาก data.js
+  const [plants, setPlants] = useState(initialPlants);
   const [cart, setCart] = useState([]);
-  const [page, setPage] = useState("shop"); // shop | owner | cart | checkout
+  const [page, setPage] = useState("shop"); // shop | owner | cart | checkout | orders
   const [checkoutItem, setCheckoutItem] = useState(null);
+
+  // Orders
+  const [orders, setOrders] = useState([]);
 
   // ===== Register =====
   const handleRegister = (e) => {
@@ -67,8 +71,22 @@ export default function App() {
 
   // ===== Checkout =====
   const checkoutNow = (plant) => {
+    const order = {
+      user: currentUser.username,
+      item: plant,
+      date: new Date().toLocaleString(),
+      status: "Pending", // สถานะเริ่มต้น
+    };
+    setOrders([...orders, order]);
     setCheckoutItem(plant);
     setPage("checkout");
+  };
+
+  // ===== Update Order Status =====
+  const updateOrderStatus = (index, newStatus) => {
+    const updatedOrders = [...orders];
+    updatedOrders[index].status = newStatus;
+    setOrders(updatedOrders);
   };
 
   // ===== Auth Page =====
@@ -109,6 +127,7 @@ export default function App() {
         <div className="nav-buttons">
           <button onClick={() => setPage("shop")}>🛒 ร้านค้า</button>
           {currentUser.isOwner && <button onClick={() => setPage("owner")}>👨‍🌾 เจ้าของร้าน</button>}
+          {currentUser.isOwner && <button onClick={() => setPage("orders")}>📦 ออเดอร์</button>}
           <button onClick={() => setPage("cart")}>🛍️ ตะกร้า ({cart.reduce((a, b) => a + b.qty, 0)})</button>
           <button onClick={logout}>🚪 Logout</button>
         </div>
@@ -119,6 +138,9 @@ export default function App() {
       )}
       {page === "owner" && currentUser.isOwner && (
         <OwnerDashboard plants={plants} setPlants={setPlants} />
+      )}
+      {page === "orders" && currentUser.isOwner && (
+        <OrdersPage orders={orders} updateOrderStatus={updateOrderStatus} />
       )}
       {page === "cart" && (
         <CartPage cart={cart} updateCartQty={updateCartQty} removeFromCart={removeFromCart} />
